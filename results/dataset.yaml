@@ -1,0 +1,8 @@
+names:
+  0: prohibitory
+  1: danger
+  2: mandatory
+  3: other
+nc: 4
+train: /kaggle/working/train_images.txt
+val: /kaggle/working/val_images.txt

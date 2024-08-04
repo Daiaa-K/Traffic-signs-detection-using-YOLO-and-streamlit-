@@ -1,0 +1,65 @@
+{
+    "os": "Linux-5.15.154+-x86_64-with-glibc2.31",
+    "python": "3.10.13",
+    "heartbeatAt": "2024-07-28T08:07:22.250800",
+    "startedAt": "2024-07-28T08:07:21.897857",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "-f",
+        "/tmp/tmp2y61wcig.json",
+        "--HistoryManager.hist_file=:memory:"
+    ],
+    "state": "running",
+    "program": "<python with no main file>",
+    "codePathLocal": null,
+    "host": "6bfd3d550de8",
+    "username": "root",
+    "executable": "/opt/conda/bin/python",
+    "cpu_count": 2,
+    "cpu_count_logical": 4,
+    "cpu_freq": {
+        "current": 2000.15,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2000.15,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2000.15,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2000.15,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2000.15,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 8062.387607574463,
+            "used": 5771.751983642578
+        }
+    },
+    "gpu": "Tesla P100-PCIE-16GB",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Tesla P100-PCIE-16GB",
+            "memory_total": 17179869184
+        }
+    ],
+    "memory": {
+        "total": 31.357574462890625
+    }
+}
