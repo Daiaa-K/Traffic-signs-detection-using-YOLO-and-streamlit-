@@ -31,7 +31,7 @@ def plot_results(result, img):
     
     return img
 
-ddef process_video(video_path):
+def process_video(video_path):
     cap = cv2.VideoCapture(video_path)
     
     # Get video properties
