@@ -4,6 +4,7 @@ import cv2
 from PIL import Image
 import numpy as np
 import tempfile
+import os
 
 # Load the YOLOv8 model
 model = YOLO(r"results/runs/detect/train/weights/best.pt")
