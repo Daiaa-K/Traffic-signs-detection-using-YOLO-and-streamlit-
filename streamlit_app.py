@@ -5,6 +5,7 @@ from PIL import Image
 import numpy as np
 import tempfile
 import os
+from moviepy.editor import VideoFileClips
 
 # Load the YOLOv8 model
 model = YOLO(r"results/runs/detect/train/weights/best.pt")
@@ -30,7 +31,7 @@ def plot_results(result, img):
     
     return img
 
-def process_video(video_path):
+ddef process_video(video_path):
     cap = cv2.VideoCapture(video_path)
     
     # Get video properties
@@ -58,7 +59,16 @@ def process_video(video_path):
     cap.release()
     out.release()
     
-    return output_path
+    # Convert the video to a format that Streamlit can display
+    clip = VideoFileClip(output_path)
+    final_output_path = tempfile.mktemp(suffix='.mp4')
+    clip.write_videofile(final_output_path, codec='libx264')
+    clip.close()
+    
+    # Remove the temporary file
+    os.unlink(output_path)
+    
+    return final_output_path
 
 st.title("YOLOv8 Object Detection")
 
