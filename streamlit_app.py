@@ -10,7 +10,24 @@ model = YOLO(r"results/runs/detect/train/weights/best.pt")
 
 def process_image(image):
     results = model(image)
-    return results[0].plot()
+    return plot_results(results[0], image)
+
+def plot_results(result, img):
+    img = np.array(img)
+    for box in result.boxes:
+        x1, y1, x2, y2 = box.xyxy[0]
+        x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
+        conf = round(box.conf[0].item(), 2)
+        cls = result.names[box.cls[0].item()]
+        
+        cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
+        label = f'{cls} {conf}'
+        t_size = cv2.getTextSize(label, 0, fontScale=0.6, thickness=1)[0]
+        c2 = x1 + t_size[0], y1 - t_size[1] - 3
+        cv2.rectangle(img, (x1, y1), c2, [255, 0, 0], -1, cv2.LINE_AA)  # filled
+        cv2.putText(img, label, (x1, y1 - 2), 0, 0.6, [255, 255, 255], thickness=1, lineType=cv2.LINE_AA)
+    
+    return Image.fromarray(img)
 
 def process_video(video_path):
     cap = cv2.VideoCapture(video_path)
@@ -20,11 +37,11 @@ def process_video(video_path):
         if not ret:
             break
         results = model(frame)
-        output = results[0].plot()
-        stframe.image(output, channels="BGR")
+        output = plot_results(results[0], frame)
+        stframe.image(output, channels="RGB")
     cap.release()
 
-st.title("Traffic signs Detection")
+st.title("YOLOv8 Object Detection")
 
 upload_type = st.radio("Select input type:", ("Image", "Video"))
 
