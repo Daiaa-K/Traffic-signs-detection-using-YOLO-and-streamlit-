@@ -5,7 +5,7 @@ from PIL import Image
 import numpy as np
 import tempfile
 import os
-from moviepy.editor import VideoFileClips
+from moviepy.editor import VideoFileClip
 
 # Load the YOLOv8 model
 model = YOLO(r"results/runs/detect/train/weights/best.pt")
