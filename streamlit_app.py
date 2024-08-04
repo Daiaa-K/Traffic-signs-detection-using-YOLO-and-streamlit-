@@ -6,7 +6,7 @@ import numpy as np
 import tempfile
 
 # Load the YOLOv8 model
-model = YOLO(r"G:\Yolo traffic signs\results\runs\detect\train\weights\best.pt")
+model = YOLO(r"results\runs\detect\train\weights\best.pt")
 
 def process_image(image):
     results = model(image)
@@ -24,7 +24,7 @@ def process_video(video_path):
         stframe.image(output, channels="BGR")
     cap.release()
 
-st.title("YOLOv8 Object Detection")
+st.title("Traffic signs Detection")
 
 upload_type = st.radio("Select input type:", ("Image", "Video"))
 
