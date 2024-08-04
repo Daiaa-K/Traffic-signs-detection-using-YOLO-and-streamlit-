@@ -6,7 +6,7 @@ import numpy as np
 import tempfile
 
 # Load the YOLOv8 model
-model = YOLO(r"results\runs\detect\train\weights\best.pt")
+model = YOLO(r"results/runs/detect/train/weights/best.pt")
 
 def process_image(image):
     results = model(image)
