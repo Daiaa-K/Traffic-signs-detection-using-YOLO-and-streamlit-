@@ -27,19 +27,37 @@ def plot_results(result, img):
         cv2.rectangle(img, (x1, y1), c2, [255, 0, 0], -1, cv2.LINE_AA)  # filled
         cv2.putText(img, label, (x1, y1 - 2), 0, 0.6, [255, 255, 255], thickness=1, lineType=cv2.LINE_AA)
     
-    return Image.fromarray(img)
+    return img
 
 def process_video(video_path):
     cap = cv2.VideoCapture(video_path)
-    stframe = st.empty()
+    
+    # Get video properties
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    
+    # Create a temporary file for the output video
+    output_path = tempfile.mktemp(suffix='.mp4')
+    
+    # Create VideoWriter object
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
+    
+    # Process each frame
     while cap.isOpened():
         ret, frame = cap.read()
         if not ret:
             break
         results = model(frame)
-        output = plot_results(results[0], frame)
-        stframe.image(output, channels="RGB")
+        output_frame = plot_results(results[0], frame)
+        out.write(output_frame)
+    
+    # Release resources
     cap.release()
+    out.release()
+    
+    return output_path
 
 st.title("YOLOv8 Object Detection")
 
@@ -60,4 +78,10 @@ elif upload_type == "Video":
         tfile = tempfile.NamedTemporaryFile(delete=False)
         tfile.write(uploaded_file.read())
         if st.button("Detect Objects"):
-            process_video(tfile.name)
+            st.text("Processing video... This may take a while.")
+            output_video_path = process_video(tfile.name)
+            st.text("Processing complete. Displaying result.")
+            st.video(output_video_path)
+            # Clean up temporary files
+            os.unlink(tfile.name)
+            os.unlink(output_video_path)
