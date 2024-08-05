@@ -10,26 +10,17 @@ from moviepy.editor import VideoFileClip
 # Load the YOLOv8 model
 model = YOLO(r"results/runs/detect/train/weights/best.pt")
 
-def plot_results(result, img):
-    img = np.array(img)
-    for box in result.boxes:
-        x1, y1, x2, y2 = map(int, box.xyxy[0])
-        conf = round(float(box.conf[0]), 2)
-        cls = result.names[int(box.cls[0])]
-        
-        cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 2)
-        label = f'{cls} {conf}'
-        t_size = cv2.getTextSize(label, 0, fontScale=0.6, thickness=1)[0]
-        c2 = x1 + t_size[0], y1 - t_size[1] - 3
-        cv2.rectangle(img, (x1, y1), c2, [255, 0, 0], -1, cv2.LINE_AA)
-        cv2.putText(img, label, (x1, y1 - 2), 0, 0.6, [255, 255, 255], thickness=1, lineType=cv2.LINE_AA)
-    
-    return img
-
 def process_image(image):
     results = model(image)
-    return Image.fromarray(plot_results(results[0], image))
-
+    
+    # Use the built-in plot method
+    result_image = results[0].plot()
+    
+    # Save the result image to a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as temp_file:
+        Image.fromarray(result_image).save(temp_file.name)
+        return temp_file.name
+        
 def process_video(video_path):
     temp_output_path = tempfile.mktemp(suffix='.mp4')
     final_output_path = tempfile.mktemp(suffix='.mp4')
@@ -49,7 +40,7 @@ def process_video(video_path):
         if not ret:
             break
         results = model(frame)
-        output_frame = plot_results(results[0], frame)
+        output_frame = results[0].plot()
         out.write(output_frame)
         
         # Update progress bar
