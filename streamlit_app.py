@@ -11,14 +11,23 @@ from moviepy.editor import VideoFileClip
 model = YOLO(r"results/runs/detect/train/weights/best.pt")
 
 def process_image(image):
-    results = model(image)
+    # Convert PIL Image to numpy array
+    img_array = np.array(image)
     
-    # Use the built-in plot method
+    # Convert RGB to BGR (if necessary)
+    if img_array.shape[2] == 3:
+        img_array = cv2.cvtColor(img_array, cv2.COLOR_RGB2BGR)
+    
+    results = model(img_array)
+    
     result_image = results[0].plot()
+    
+    # Convert BGR back to RGB
+    result_image_rgb = cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB)
     
     # Save the result image to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as temp_file:
-        Image.fromarray(result_image).save(temp_file.name)
+        Image.fromarray(result_image_rgb).save(temp_file.name)
         return temp_file.name
         
 def process_video(video_path):
