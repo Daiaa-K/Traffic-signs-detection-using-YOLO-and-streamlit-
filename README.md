@@ -1,18 +1,21 @@
-# 🚦 Real-Time Traffic Sign Detection with YOLOv8 & Streamlit  
+# 🚦 Traffic Sign Detection using YOLOv8
 
-**Detect traffic signs in images, videos, and webcam streams using state-of-the-art object detection**  
+This project provides a user-friendly Streamlit web app for detecting traffic signs in images and videos using a custom fine-tuned YOLOv8 model.
 
-![demo](https://github.com/Daiaa-K/Traffic-signs-detection-using-YOLO-and-streamlit-/assets/62758448/ae7d5e0b-2f66-4f4d-8c3e-6f0c3f0a6a7f)  
+## 🔍 Features
 
-## 🚀 Features  
-- **Multi-input support**:video files (MP4/AVI), and images (JPG/PNG)  
-- **Customizable thresholds**: Adjust confidence levels (0.25-1.0)  
-- **Auto-download**: YOLOv8n weights downloaded on first run  
-- **Device optimization**: Automatic CUDA GPU detection with CPU fallback  
+- Upload and analyze **images** and **videos**.
+- Detect traffic signs using a fine-tuned YOLOv8 model.
+- Visualize detection results directly in the browser.
+- Clean, interactive interface built with Streamlit.
 
-## 📦 Dependencies  
-```python
-streamlit==1.22.0      # Web interface
-ultralytics==8.0.0     # YOLOv8 implementation
-opencv-python==4.7.0   # Video/image processing
-torch>=1.7.0           # PyTorch backend
+## 🧠 Model
+
+The detection is powered by **YOLOv8**, which was **fine-tuned on a dataset of traffic signs** to improve accuracy for this specific use case. The custom-trained weights (`best.pt`) are used to perform detection on user-uploaded media.
+
+## ▶️ How It Works
+
+1. Choose whether you want to upload an **image** or a **video**.
+2. Upload your file via the Streamlit interface.
+3. Click **"Detect Objects"**.
+4. The app will process the file
